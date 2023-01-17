@@ -5,8 +5,16 @@ import (
 	"os"
 )
 
-var valid_user = os.Getenv("ANIMALS_API_USERNAME")
-var valid_pass = os.Getenv("ANIMALS_API_PASSWORD")
+var valid_user, valid_pass string
+
+func init() {
+	valid_user = os.Getenv("ANIMALS_API_USERNAME")
+	valid_pass = os.Getenv("ANIMALS_API_PASSWORD")
+
+	if valid_user == "" || valid_pass == "" {
+		panic("ANIMALS_API_USERNAME and ANIMALS_API_PASSWORD environment variables not set")
+	}
+}
 
 func Authorize(req *http.Request) bool {
 	user, pass, _ := req.BasicAuth()
